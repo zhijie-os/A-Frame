@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <!-- <script src="index.js"></script> -->
+    <script>
+        let boxes = []
+        let theta = 0
+        AFRAME.registerComponent('box-generate', {
+            init: function () {
+                for (let i = 0; i < 10; i++) {
+                    let box = document.createElement('a-box')
+                    box.setAttribute('color', 'red')
+                    box.setAttribute('rotation', '0 45 0')
+                    box.setAttribute('scale', '0.1 0.1 0.1')
+                    box.setAttribute('position', `${i * 0.2 - 0.5} 0 0`)
+                    this.el.sceneEl.appendChild(box)
+                    boxes.push(box)
+                }
+            },
+            tick: function () {
+                for (let i = 0; i < 10; i++) {
+                    let box = boxes[i]
+                    theta = theta + 0.01
+                    box.setAttribute('position', `${i * 0.2 * Math.sin(theta)} ${i * 0.2 * Math.cos(theta)} 0`)
+                }
+            }
+        })
+
+    </script>
+</head>
+
+<body>
+    <a-scene box-generate background="color: #FAFAFA">
+        <!-- <a-box move shadow position="0 0 0" rotation="0 45 0" color="red"></a-box> -->
+        <a-camera position="0 0 6"></a-camera>
+    </a-scene>
+</body>
+
+</html>
