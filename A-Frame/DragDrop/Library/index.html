@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
+
+    <script src="draggable.js"></script>
+    <script src="box-generate.js"></script>
+
+</head>
+
+<body>
+    <a-scene cursor="rayOrigin: mouse" background="color:#FAFAFA">
+        <a-camera look-controls="mouseEnabled:false; touchEnabled:false"></a-camera>
+        <a-plane box-generate position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" shadow></a-plane>
+    </a-scene>
+</body>
+
+</html>

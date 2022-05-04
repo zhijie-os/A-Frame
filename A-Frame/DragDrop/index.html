@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
+
+    <script>
+        let dragging = false;
+        let draggingEl = null;
+
+        AFRAME.registerComponent("draggable", {
+            init: function () {
+                this.el.addEventListener("mousedown", event => {
+                    console.log(event);
+                    dragging = true;
+                    draggingEl = this.el;
+                });
+                this.el.addEventListener("mouseup", event => {
+                    console.log(event);
+                    dragging = false;
+                });
+            },
+            tick: function () {
+                if (dragging) {
+                    // move the current box to the position of intersection
+
+                    let plane = document.querySelector("a-plane");
+                    let intersection = this.el.sceneEl.components.raycaster.getIntersection(plane);
+                    let position = intersection.point;
+                    console.log(position);
+                    draggingEl.setAttribute("position", position);
+                }
+            }
+        });
+
+        AFRAME.registerComponent('box-generate', {
+            init: function () {
+                this.el.addEventListener("click", event => {
+                    let plane = document.querySelector("a-plane");
+                    let intersection = this.el.sceneEl.components.raycaster.getIntersection(plane);
+                    let position = intersection.point;
+                    let box = document.createElement("a-box");
+                    box.setAttribute("position",position);
+                    box.setAttribute("color","red");
+                    box.setAttribute("scale","0.4 0.4 0.4");
+                    box.setAttribute("draggable","");
+                    this.el.sceneEl.appendChild(box);
+                });
+            }
+        })
+    </script>
+</head>
+
+<body>
+    <a-scene cursor="rayOrigin: mouse" background="color:#FAFAFA">
+        <a-camera look-controls="mouseEnabled:false; touchEnabled:false"></a-camera>
+        <a-plane box-generate position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" shadow></a-plane>
+    </a-scene>
+</body>
+
+</html>

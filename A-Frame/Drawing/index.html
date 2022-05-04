@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
+
+
+    <script>
+        // let clicked = false;
+
+        // check intersected
+        // check mousedown
+        // get intersected point
+        // add sphere at the point
+
+
+        let hit = false;
+        let drawing = false;
+
+        AFRAME.registerComponent("clickable", {
+            init: function () {
+
+
+                // if (!clicked) {
+                //     this.el.setAttribute("color", "red");
+                // }
+                // else {
+                //     this.el.setAttribute("color", "#7BC8A4");
+                // }
+
+                // clicked = !clicked;
+
+
+                this.el.addEventListener('click', (event) => {
+                    console.log(event)
+                })
+
+                this.el.addEventListener("raycaster-intersected", event => {
+                    console.log(event)
+                    hit = true;
+                })
+
+                this.el.addEventListener("raycaster-intersected-cleared", event => {
+                    console.log(event)
+                    hit = false;
+                })
+
+                this.el.addEventListener("mousedown", event => {
+                    console.log(event)
+                    drawing = true;
+                })
+
+                this.el.addEventListener("mouseup", event => {
+                    console.log(event)
+                    drawing = false;
+                })
+            },
+            tick: function () {
+                if (hit && drawing) {
+                    let plane = document.querySelector("a-plane");
+
+                    let intersection = this.el.sceneEl.components.raycaster.getIntersection(plane);
+
+                    console.log(intersection)
+
+                    let position = intersection.point;
+                    let sphere = document.createElement("a-sphere");
+
+                    sphere.setAttribute("position", position);
+                    sphere.setAttribute("scale", "0.04 0.04 0.04");
+                    sphere.setAttribute("color", "red");
+                    this.el.sceneEl.appendChild(sphere);
+                }
+            }
+        })
+    </script>
+</head>
+
+<body>
+    <a-scene cursor="rayOrigin:mouse" background="color: #FAFAFA">
+        <a-camera look-controls="mouseEnabled: false; touchEnabled:false"></a-camera>
+        <a-plane clickable position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" shadow></a-plane>
+    </a-scene>
+</body>
+
+</html>

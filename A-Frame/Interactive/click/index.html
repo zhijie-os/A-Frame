@@ -11,6 +11,7 @@
                 this.el.addEventListener('click', event => {
                     let position = event.detail.intersection.point;
                     console.log("clicked")
+                   
                     let box = document.createElement("a-box");
                     box.setAttribute("position",position);
                     box.setAttribute("scale","0.2 0.2 0.2");
